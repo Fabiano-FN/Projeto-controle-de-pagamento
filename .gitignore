@@ -1,0 +1,34 @@
+# Dependências
+/node_modules
+/.pnp
+.pnp.*
+
+# Build e cache do Next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# Variáveis de ambiente e chaves secretas (NUNCA subir para o GitHub)
+.env
+.env.*
+!.env.example
+
+# Backups locais de comprovantes (gerados pela funcionalidade de backup)
+/backups/
+*.zip
+
+# Vercel / Deploy
+.vercel
+
+# Logs e debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+*.pem

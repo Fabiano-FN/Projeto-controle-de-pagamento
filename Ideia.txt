@@ -1,0 +1,72 @@
+Organizando ideias do projeto
+Premissa: A ideia principal do projeto é criar uma solução que registre os pagamentos dos alunos da atletica de médicina
+
+Caractéristicas importantes:
+
+  [1. Pagamentos, PIX e Lançamentos]
+ - Registrar pagamento - anexo do comprovante como prova (comprovante em PDF e com tamanho limite)
+ - Salvar os pagamentos
+ - Poder lançar lotes de pagamento para vários alunos
+ - Pagamento via PIX e enviando o comprovante manualmente para aprovação do tesoureiro
+ (pix estático copiando a chave da atletica e gerando QRCode)
+
+  [2. Regras de Parcelas, Pagamento Parcial e Saldo]
+ - Consulta data para validar quais pagamentos estão pendentes e quais estão atrasados
+ - Suporte para Pagamento parcial (informar valor pendente e valor pago da parcela, consta como pendente ainda)
+ - Caso o pagamento seja parcial a parcela continua pedente mas o pagamento entra em status de aguardando aprovação
+ - Caso o valor do pagamento exceda a parcela descontará de parcelas futuras em ordem cronológica, mudando o status das parcelas para pago
+ - Caso o valor supere os de todos os boletos pedentes, gerar saldo para o aluno para futuros lançamentos
+ - O valor do pagamento gera saldo que depois é abatido com o pagamento da parcela
+
+  [3. Aprovação do Tesoureiro e Auditoria]
+ - Aprovação de pagamento passa pelo tesoureiro, quem válida o pagamento, entrando no stutus de analise/aguardando aprovação
+ (salvar metadados para possível auditoria, quando aprovado, qual tesoureiro aprovou, etc)
+ - caso o pagamento seja negado (salvar comprovante rejeitado, porém haveno possibilidade de exclui-lo depois)
+
+  [4. Visualização e Relatórios]
+ - Ser possível visualizar os pagamentos realizados e pendentes por mes e por aluno
+ - Conseguir puxar relatórios de quem está devendo, qual mes e o valor
+ - separar todos os comprovantes por aluno e por mes (acesso tesoureiro)
+ - Permitir o aluno visualizar todos seus comprovantes
+
+  [5. Comprovantes e Gestão de Armazenamento]
+ - Comprimir imagens de comprovante, habilitar até 3 pagamentos por parcela
+ - Após 6 meses a um ano excluir comprovantes antigos, caso o File storage esteja com 90% ou mais de armazenamento 
+
+  [6. Acesso, Cadastro e Permissões]
+ - Todos os alunos tem que ter acesso, mas com perfis de permissão distintos
+ (Ex tesoureiro = Adiministador, outros membros usuários comuns, veem apenas a si mesmo)
+ - Cadastro dos Alunos realizados pelo tesoureiro
+ - Primeiro acesso solicita mudança de senha
+
+
+Outras Caractéristicas:
+ - Código aberto
+ - Para os alunos da atlética
+ - Gratuito
+ 
+ 
+O que eu sei:
+ - Básico de python
+ - Conhecimento básico sobre Estrutura de Dados
+ - Conhecimento iniciante/ intermédiario em POO
+ - Conhecimento iniciante em modelagem de dados e noção básica de SQL
+ - Curiosidade em aplicações Web
+
+Arquitetura:
+- Aplicação Web Moderna Serveless
+- Armazenamento Supabase/Firebase
+- SupaBase - SQL com backup local dec arquivos 
+- Stack: Next.js (React + TypeScript) + Tailwind CSS + Supabase (Fullstack JS/TS)
+
+# A fazer:
+- Pedir para o claude modelar o banco
+
+
+-------------------------------------------------------------------------
+# Sugestões Complementares (Para avaliar se deseja incluir):
+- Tela para o Tesoureiro configurar/alterar a Chave PIX da Atlética (caso a conta ou o tesoureiro mude na troca de gestão).
+- Prevenção de comprovante duplicado: gerar um código "hash" (impressão digital) do arquivo enviado para avisar o tesoureiro caso um aluno tente enviar exatamente o mesmo arquivo PDF/imagem em dois meses diferentes.
+- Botão de "Cobrar no WhatsApp" no relatório de devedores (gera um link direto pro WhatsApp do aluno com uma mensagem amigável lembrando do mês e valor pendente).
+- Histórico de Uso de Saldo (Extrato do Aluno): para o aluno entender de onde veio o saldo positivo dele e em qual mensalidade foi descontado.
+- Pedir para o claude modelar o banco
