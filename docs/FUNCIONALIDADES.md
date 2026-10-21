@@ -28,20 +28,23 @@
   - Garantir que apenas `admin` (Tesoureiro) pode ver todos os alunos, criar parcelas e aprovar pagamentos.
 - [x] **1.3. Configuração do Bucket no Supabase Storage (`supabase/schema.sql`):**
   - Criar bucket privado `comprovantes` com regras de acesso por perfil.
-- [ ] **1.4. Fluxo de Login e Primeiro Acesso:**
-  - Tela de Login (E-mail e Senha).
-  - Middleware de redirecionamento obrigatório para a tela **"Alterar Senha Provisória"** quando `precisa_trocar_senha == true`.
+- [ ] **1.4. Inicialização do Next.js + Fluxo de Login, Primeiro Acesso e Recuperação de Senha:**
+  - Estrutura Next.js (TypeScript + Tailwind CSS + Supabase SSR) na raiz do projeto.
+  - Rotas segregadas por perfil: `/login`, `/primeiro-acesso`, `/redefinir-senha`, `/admin` (Tesoureiro) e `/aluno` (Membro).
+  - Tela de Login (E-mail e Senha) + opção **"Esqueci minha senha"** (envio de link de recuperação por e-mail via Supabase Auth).
+  - Middleware de redirecionamento obrigatório para `/primeiro-acesso` quando `precisa_trocar_senha == true`, exigindo senha forte (mínimo de 8 caracteres, maiúscula, minúscula, número, símbolo especial e confirmação igual).
 
 ---
 
 ## Fase 2: Módulo do Tesoureiro — Cadastros e Lançamentos
 *Funcionalidades para alimentar o sistema com alunos e cobranças.*
 
-- [ ] **2.1. Gestão de Alunos (Pré-cadastro pelo Tesoureiro):**
-  - Formulário para cadastrar aluno individualmente (Nome, CPF, E-mail, Turma/Matrícula, Senha Provisória).
-  - (Opcional/Desejável) Importação de alunos via planilha CSV para facilitar o início do ano.
+- [ ] **2.1. Gestão de Alunos e Reset de Senha Provisória (Pré-cadastro Individual pelo Tesoureiro):**
+  - Formulário para cadastrar aluno individualmente (Nome, CPF, E-mail, Turma/Matrícula), gerando senha provisória exibida na hora da criação.
+  - Botão **"Copiar Credenciais para WhatsApp"** (já formatado com a URL do site, o e-mail e a senha provisória do aluno).
+  - Botão **"Resetar Senha Provisória"** em 1 clique para o tesoureiro gerar uma nova senha temporária exibida na hora caso o aluno esqueça a senha (voltando `precisa_trocar_senha = true` e permitindo copiar a mensagem para o WhatsApp).
 - [ ] **2.2. Lançamento de Parcelas (Cobranças) em Lote e Individual:**
-  - Selecionar todos os alunos ativos (ou filtrar por turma) e gerar uma cobrança mensal de uma só vez (definindo Mês de Referência, Valor e Data de Vencimento).
+  - Tela de lançamento com lista dos alunos ativos, botão **"Selecionar Todos"**, filtro por turma e checkboxes individuais para marcar/desmarcar quem entrará no lote (definindo Descrição, Mês de Referência, Valor e Data de Vencimento).
   - Abatimento automático na criação caso o aluno já possua `saldo_credito > 0`.
 - [ ] **2.3. Configuração da Chave PIX da Atlética:**
   - Tela simples para o Tesoureiro definir/atualizar a Chave PIX da Atlética, nome do recebedor e cidade (usados na geração do QR Code PIX Estático).

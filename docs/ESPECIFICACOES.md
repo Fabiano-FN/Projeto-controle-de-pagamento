@@ -11,12 +11,12 @@ Aplicação Web Serverless gratuita e de código aberto para gerenciar mensalida
 
 ## 2. Stack Tecnológica e Arquitetura
 
-* **Arquitetura:** Aplicação Web Moderna Serverless (Fullstack).
-* **Frontend & Rotas de API (BFF):** Next.js (App Router) + React + TypeScript.
+* **Arquitetura:** Aplicação Web Moderna Serverless (Fullstack), estruturada diretamente na raiz do repositório.
+* **Frontend & Rotas de API (BFF):** Next.js (App Router) + React + TypeScript, com segregação de rotas por perfil (`/login`, `/primeiro-acesso`, `/redefinir-senha`, `/admin` e `/aluno`).
 * **Estilização:** Tailwind CSS (foco em interface limpa e responsiva/Mobile-first para os alunos enviarem comprovantes pelo celular).
 * **Backend-as-a-Service (BaaS):** Supabase
   * **Banco de Dados:** PostgreSQL (Relacional / SQL).
-  * **Autenticação:** Supabase Auth (E-mail/Senha com flag de troca de senha no primeiro acesso).
+  * **Autenticação:** Supabase Auth (E-mail/Senha com flag de troca obrigatória de senha no primeiro acesso, recuperação de senha via link por e-mail e reset manual de senha provisória pelo Tesoureiro).
   * **Segurança de Dados:** Row Level Security (RLS) ativo em todas as tabelas.
   * **Armazenamento de Arquivos:** Supabase Storage (Bucket privado para comprovantes, organizado virtualmente por `ano-mes/aluno_id/`).
 * **Backup & Retenção:** Funcionalidade de exportação/backup local de arquivos pelo Tesoureiro e limpeza de comprovantes antigos quando o Storage atingir $\ge 90\%$ da cota gratuita (1 GB).
@@ -26,8 +26,9 @@ Aplicação Web Serverless gratuita e de código aberto para gerenciar mensalida
 ## 3. Perfis de Usuário e Permissões (RBAC)
 
 ### 3.1. Tesoureiro (Administrador)
-* Cadastra novos alunos individualmente ou em lote (gerando credenciais provisórias).
-* Lança cobranças/parcelas individuais ou em lote para múltiplos alunos.
+* Cadastra novos alunos **individualmente** (gerando credenciais provisórias sem exigir confirmação prévia de e-mail, exibindo na tela no momento da criação o card com botão **"Copiar credenciais para WhatsApp"** contendo a URL do site, e-mail e senha provisória).
+* Possui o botão **"Resetar Senha Provisória"** em 1 clique caso o aluno esqueça a senha (ou caso o tesoureiro precise reenviar o acesso), gerando uma nova senha temporária exibida na hora com botão de copiar para WhatsApp + URL do site e voltando `precisa_trocar_senha = true` (nenhuma senha fica armazenada em texto no banco).
+* Lança cobranças/parcelas individuais ou **em lote** (através de tela com lista de alunos ativos, filtro por turma, botão *"Selecionar Todos"* e checkboxes individuais para incluir/desmarcar alunos específicos no lote).
 * Visualiza o painel geral (Dashboard) com filtros por mês, aluno e status (`Pendente`, `Atrasado`, `Em Análise`, `Pago`).
 * Aprova ou recusa pagamentos enviados pelos alunos (gerando registro de auditoria automático). **O tesoureiro não altera o valor ao aprovar; caso o valor do comprovante seja diferente do digitado pelo aluno, o tesoureiro recusa o envio e pode atualizar o valor informado (somente na recusa).**
 * Exclui comprovantes rejeitados quando necessário.
@@ -36,7 +37,8 @@ Aplicação Web Serverless gratuita e de código aberto para gerenciar mensalida
 * Executa backup local de comprovantes e aciona limpeza de arquivos antigos.
 
 ### 3.2. Aluno (Membro Comum)
-* No primeiro login, é **obrigado a redefinir a senha temporária**.
+* No primeiro login (ou após um reset pelo tesoureiro), é **obrigado a redefinir a senha temporária** em `/primeiro-acesso`, respeitando a regra de complexidade forte: **mínimo de 8 caracteres, contendo pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 símbolo especial** (mais confirmação de senha idêntica).
+* Pode recuperar sua senha de forma autônoma na tela de login clicando em **"Esqueci minha senha"** (recebendo link de redefinição por e-mail do Supabase) ou solicitando uma nova senha provisória ao Tesoureiro.
 * Visualiza **exclusivamente** suas próprias parcelas, seu histórico de pagamentos, seus comprovantes anexados e seu **saldo de crédito** atual.
 * Gera o **QR Code PIX Estático e o código "Pix Copia e Cola"** direto pelo aplicativo (com o valor exato da parcela ou do pagamento parcial desejado, apontando para a chave PIX oficial da Atlética).
 * Envia comprovantes de pagamento manualmente após realizar o PIX (PDF com tamanho limite ou Imagem comprimida automaticamente no navegador antes do upload).
