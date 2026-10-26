@@ -11,9 +11,13 @@ Aplicação Web Serverless gratuita e de código aberto para gerenciar mensalida
 
 ## 2. Stack Tecnológica e Arquitetura
 
-* **Arquitetura:** Aplicação Web Moderna Serverless (Fullstack), estruturada diretamente na raiz do repositório.
+* **Arquitetura:** Aplicação Web Moderna Serverless (Fullstack), estruturada diretamente na raiz do repositório segundo o **Modelo B (Feature-Based / Modular + Route Groups do Next.js)**:
+  * `src/app/(auth)/` e `src/app/(painel)/`: Páginas enxutas separadas por *Route Groups* (os parênteses organizam as pastas sem alterar as URLs finais `/login`, `/primeiro-acesso`, `/redefinir-senha`, `/admin` e `/aluno`).
+  * `src/features/{modulo}/`: Módulos de negócio isolados (`auth`, `alunos`, `parcelas`, `pagamentos`), contendo seus próprios `components/`, `actions/` e `validations/`.
+  * `src/components/ui/`: Componentes visuais base do `shadcn/ui`.
+  * `src/lib/`: Clientes de infraestrutura (`supabase/`) e utilitários globais.
 * **Frontend & Rotas de API (BFF):** Next.js (App Router) + React + TypeScript, com segregação de rotas por perfil (`/login`, `/primeiro-acesso`, `/redefinir-senha`, `/admin` e `/aluno`).
-* **Estilização:** Tailwind CSS (foco em interface limpa e responsiva/Mobile-first para os alunos enviarem comprovantes pelo celular).
+* **Estilização & UI:** Tailwind CSS + **shadcn/ui** (componentes acessíveis copiados para `src/components/ui/`, seguindo abordagem **D + A**: estrutura planejada via wireframe simples + blocos padronizados do shadcn/ui, com foco Mobile-first para os alunos e painel produtivo para o Tesoureiro).
 * **Backend-as-a-Service (BaaS):** Supabase
   * **Banco de Dados:** PostgreSQL (Relacional / SQL).
   * **Autenticação:** Supabase Auth (E-mail/Senha com flag de troca obrigatória de senha no primeiro acesso, recuperação de senha via link por e-mail e reset manual de senha provisória pelo Tesoureiro).

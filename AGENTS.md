@@ -8,3 +8,6 @@
 - Toda vez que finalizarmos a revisão de uma funcionalidade/etapa e partirmos para a próxima etapa, marque obrigatoriamente `[x]` no checkbox correspondente dentro do arquivo `docs/FUNCIONALIDADES.md`.
 - Mantenha `docs/ESPECIFICACOES.md`, `docs/FUNCIONALIDADES.md` e o código/SQL sempre sincronizados.
 
+## 3. Controle de Branches e Push no GitHub por Etapa
+- Sempre que finalizar uma funcionalidade/etapa de `docs/FUNCIONALIDADES.md`, sinalize explicitamente ao usuário que a etapa está pronta para ser subida na sua respectiva branch no GitHub (`feat/...` e merge em `dev`/`main` quando aplicável), fornecendo a mensagem de commit recomendada e realizando/orientando o `git push` antes de iniciar a próxima funcionalidade.
+

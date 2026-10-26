@@ -28,8 +28,8 @@
   - Garantir que apenas `admin` (Tesoureiro) pode ver todos os alunos, criar parcelas e aprovar pagamentos.
 - [x] **1.3. Configuração do Bucket no Supabase Storage (`supabase/schema.sql`):**
   - Criar bucket privado `comprovantes` com regras de acesso por perfil.
-- [ ] **1.4. Inicialização do Next.js + Fluxo de Login, Primeiro Acesso e Recuperação de Senha:**
-  - Estrutura Next.js (TypeScript + Tailwind CSS + Supabase SSR) na raiz do projeto.
+- [x] **1.4. Inicialização do Next.js + Fluxo de Login, Primeiro Acesso e Recuperação de Senha:**
+  - Estrutura Next.js (TypeScript + Tailwind CSS + **shadcn/ui** + Supabase SSR) na raiz do projeto.
   - Rotas segregadas por perfil: `/login`, `/primeiro-acesso`, `/redefinir-senha`, `/admin` (Tesoureiro) e `/aluno` (Membro).
   - Tela de Login (E-mail e Senha) + opção **"Esqueci minha senha"** (envio de link de recuperação por e-mail via Supabase Auth).
   - Middleware de redirecionamento obrigatório para `/primeiro-acesso` quando `precisa_trocar_senha == true`, exigindo senha forte (mínimo de 8 caracteres, maiúscula, minúscula, número, símbolo especial e confirmação igual).
